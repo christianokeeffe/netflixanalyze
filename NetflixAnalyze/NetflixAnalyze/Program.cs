@@ -10,8 +10,9 @@ namespace NetflixAnalyze
     {
         static void Main(string[] args)
         {
-            Dictionary<int, Movie> movies = readfile.readProbeFile();
-            PreProcess.preProcessData(movies);
+            Dictionary<int, Movie> probeData = readfile.readProbeFile();
+            Dictionary<int, Movie> trainingData = readfile.readMovieFiles();
+            PreProcess.preProcessData(trainingData);
             Console.ReadKey();
         }
     }
