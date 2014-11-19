@@ -54,6 +54,7 @@ namespace NetflixAnalyze
 
         public static Dictionary<int, Movie> readProbeFile()
         {
+            Console.WriteLine("How many movies do you wanna load?:");
             int max = int.Parse(Console.ReadLine());
             int counter = 0;
             Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
