@@ -12,8 +12,6 @@ namespace NetflixAnalyze
         public static Dictionary<int, Movie> readMovieFiles(Dictionary<int, Movie> movieDictionary)
         {
             int i = 0;
-            int error = 0;
-            int correct = 0;
             var txtFiles = Directory.EnumerateFiles(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\download\\training_set", "*.txt");
             foreach (string currentFile in txtFiles)
             {
@@ -39,14 +37,11 @@ namespace NetflixAnalyze
                     else if (movieFound)
                     {
                         string[] tempLine = line.Split(',');
-                        if (tempMovie.Ratings.TryGetValue(int.Parse(tempLine[0]), out tempRating))
+                        int customer = int.Parse(tempLine[0]);
+                        int rating = int.Parse(tempLine[1]);
+                        if (tempMovie.Ratings.TryGetValue(customer, out tempRating))
                         {
-                            tempRating = (double)int.Parse(tempLine[1]);
-                            correct++;
-                        }
-                        else
-                        {
-                            error++;
+                            tempMovie.Ratings[customer] = (double)rating;
                         }
                     }
                 }
@@ -54,18 +49,18 @@ namespace NetflixAnalyze
                 file.Close();
             }
             Console.WriteLine("Movie Files Loaded!");
-            Console.WriteLine("Errors: " + error);
-            Console.WriteLine("Correct: " + correct);
             return movieDictionary;
         }
 
         public static Dictionary<int, Movie> readProbeFile()
         {
+            int max = int.Parse(Console.ReadLine());
+            int counter = 0;
             Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
             int tempID = -1;
             Movie tempMovie = null;
             System.IO.StreamReader file = new System.IO.StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\download\\probe.txt");
-            while (!file.EndOfStream)
+            while (!file.EndOfStream && counter < max)
             {
                 string line = file.ReadLine();
                 if(line.Contains(":"))
@@ -74,6 +69,7 @@ namespace NetflixAnalyze
                     tempMovie = new Movie();
                     tempMovie.movieID = tempID;
                     movies.Add(tempID, tempMovie);
+                    counter++;
                 }
                 else if (line != "")
                 {
