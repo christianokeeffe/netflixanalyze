@@ -9,7 +9,7 @@ namespace NetflixAnalyze
     class Movie
     {
         public int movieID;
-        public Dictionary<int, int> Ratings = new Dictionary<int, int>();
+        public Dictionary<int, double> Ratings = new Dictionary<int, double>();
 
     }
 }
