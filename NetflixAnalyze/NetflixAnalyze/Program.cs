@@ -10,6 +10,9 @@ namespace NetflixAnalyze
     {
         static void Main(string[] args)
         {
+            List<Movie> data = new List<Movie>();
+            readfile.readMovieFiles();
+            Console.ReadKey();
         }
     }
 }
