@@ -20,7 +20,7 @@ namespace NetflixAnalyze
                 foreach (KeyValuePair<int, double> rating in movie.Value.Ratings)
                 {
                     pairCount++;
-                    ratingSum = rating.Value;
+                    ratingSum += rating.Value;
                     if(userRatings.ContainsKey(rating.Key))
                     {
                         userRatings[rating.Key].Add(movie.Key, rating.Value);
@@ -55,8 +55,12 @@ namespace NetflixAnalyze
                     {/////////////////OPTIMER//////////////
                         userRatingSum += rating.Value;
                     }
-
-                    tempMovie.Ratings.Add(id, movie.Value.Ratings[id] - (1/(double)movie.Value.Ratings.Count)*movieratingsum - (1/(double)userRatings[id].Count)*userRatingSum - ((double)pairCount)*ratingSum); 
+                    double test = movie.Value.Ratings[id];
+                    double part1 = (1 / (double)movie.Value.Ratings.Count) * movieratingsum;
+                    double part2 = (1 / (double)userRatings[id].Count) * userRatingSum;
+                    double part3 =  (1/(double)pairCount)*ratingSum;
+                    double result = test - part1 - part2 + part3;
+                    tempMovie.Ratings.Add(id, result); 
                 }
 
                 returnDic.Add(tempMovie.movieID,tempMovie);
