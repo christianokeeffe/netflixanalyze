@@ -8,7 +8,7 @@ namespace NetflixAnalyze
 {
     class PreProcess
     {
-        public static void preProcessData(Dictionary<int, Movie> inputDic)
+        public static Dictionary<int, Movie> preProcessData(Dictionary<int, Movie> inputDic)
         {
             int pairCount = 0;
             double ratingSum = 0.0;
@@ -61,6 +61,7 @@ namespace NetflixAnalyze
 
                 returnDic.Add(tempMovie.movieID,tempMovie);
             }
+            return returnDic;
         }
     }
 }

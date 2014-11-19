@@ -12,7 +12,7 @@ namespace NetflixAnalyze
         public static Dictionary<int, Movie> readMovieFiles(Dictionary<int, Movie> movieDictionary)
         {
             int i = 0;
-            var txtFiles = Directory.EnumerateFiles(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\download\\training_set", "*.txt");
+            var txtFiles = Directory.EnumerateFiles(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\nf_prize_dataset\\training_set", "*.txt");
             foreach (string currentFile in txtFiles)
             {
                 i++;
@@ -60,7 +60,7 @@ namespace NetflixAnalyze
             Dictionary<int, Movie> movies = new Dictionary<int, Movie>();
             int tempID = -1;
             Movie tempMovie = null;
-            System.IO.StreamReader file = new System.IO.StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\download\\probe.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\nf_prize_dataset\\probe.txt");
             while (!file.EndOfStream && counter < max)
             {
                 string line = file.ReadLine();
