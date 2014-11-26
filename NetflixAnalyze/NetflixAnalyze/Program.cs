@@ -18,6 +18,7 @@ namespace NetflixAnalyze
             Dictionary<int, Movie> movies = PreProcess.prePostProcessData(trainingData, -1);
             Factorize fac = new Factorize(movies);
             fac.train();
+
             Console.ReadKey();
         }
     }
