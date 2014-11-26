@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factorize.cs" />
+    <Compile Include="Match.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="PreProcess.cs" />
     <Compile Include="Program.cs" />
