@@ -11,6 +11,31 @@ namespace NetflixAnalyze
     {
         public double[,] movieValues;
         public double[,] userValues;
+        public List<int> idToUserIdList = new List<int>();
+        public List<int> idToMovieIdList = new List<int>();
+        public int k = 13;
+        Dictionary<int, Movie> ratingDic;
+
+        public Factorize(Dictionary<int, Movie> inputDic)
+        {
+            // Loop over pairs with foreach
+            foreach (int movieID in inputDic.Keys)
+            {
+                idToMovieIdList.Add(movieID);
+                foreach (int userID in inputDic[movieID].Ratings.Keys)
+                {
+                    idToUserIdList.Add(userID);
+                }
+            }
+            movieValues = new double[idToMovieIdList.Count, k];
+            userValues = new double[idToUserIdList.Count, k];
+            ratingDic = inputDic;
+        }
+
+        public double getRating(int movieID, int userID)
+        {
+            return ratingDic[movieID].Ratings[userID];
+        }
 
         public static void matrix(double[,] inputMatrix)
         {
