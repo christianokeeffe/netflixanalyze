@@ -24,15 +24,77 @@ namespace NetflixAnalyze
                 idToMovieIdList.Add(movieID);
                 foreach (int userID in inputDic[movieID].Ratings.Keys)
                 {
-                    idToUserIdList.Add(userID);
+                    if (!idToUserIdList.Contains(userID))
+                    {
+                        idToUserIdList.Add(userID);
+                    }
                 }
             }
             movieValues = new double[idToMovieIdList.Count, k];
             userValues = new double[idToUserIdList.Count, k];
             ratingDic = inputDic;
+            for(int i = 0; i < idToMovieIdList.Count; i++)
+            {
+                for(int j = 0; j < k; j++)
+                {
+                    movieValues[i, j] = 0.1;
+                }
+            }
+            for (int i = 0; i < idToUserIdList.Count; i++)
+            {
+                for (int j = 0; j < k; j++)
+                {
+                    userValues[i, j] = 0.1;
+                }
+            }
         }
 
         public void train()
+        {
+            Console.WriteLine("Started training");
+            int i = 0;
+            while(i < 10)
+            {
+                foreach (int movieID in ratingDic.Keys)
+                {
+                    foreach (int userID in ratingDic[movieID].Ratings.Keys)
+                    {
+                        trainMovieUserLink(movieID, userID);
+                    }
+                }
+            }
+            i = 0;
+            Console.WriteLine("Press Y to continue, N to stop training");
+            Console.WriteLine("Waiting for input for 10 seconds...");
+
+            DateTime start = DateTime.Now;
+
+            bool gotKey = false;
+
+            while ((DateTime.Now - start).TotalSeconds < 10)
+            {
+                if (Console.KeyAvailable)
+                {
+                    gotKey = true;
+                    break;
+                }
+            }
+
+            if (gotKey)
+            {
+                string s = Console.ReadLine();
+                if (s == "Y" || s == "y")
+                {
+                    train();
+                }
+            }
+            else
+            {
+                train();
+            }
+        }
+
+        private void trainMovieUserLink(int movieID, int userID)
         {
 
         }
