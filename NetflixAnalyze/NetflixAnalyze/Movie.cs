@@ -10,6 +10,5 @@ namespace NetflixAnalyze
     {
         public int movieID;
         public Dictionary<int, double> Ratings = new Dictionary<int, double>();
-
     }
 }
