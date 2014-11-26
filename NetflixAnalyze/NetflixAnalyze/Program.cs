@@ -15,7 +15,9 @@ namespace NetflixAnalyze
             Match.matchData(trainingData, probeData);
             //PreProcess.preProcessData(trainingData);
            // Dictionary<int, Movie> movies = readfile.readProbeFile();
-            //PreProcess.prePostProcessData(movies, -1);
+            Dictionary<int, Movie> movies = PreProcess.prePostProcessData(trainingData, -1);
+            Factorize fac = new Factorize(movies);
+            fac.train();
             Console.ReadKey();
         }
     }

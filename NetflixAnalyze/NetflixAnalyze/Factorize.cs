@@ -1,5 +1,4 @@
-﻿using ILNumerics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +10,10 @@ namespace NetflixAnalyze
     {
         public double[,] movieValues;
         public double[,] userValues;
-        public List<int> idToUserIdList = new List<int>();
-        public List<int> idToMovieIdList = new List<int>();
+        //public List<int> idToUserIdList = new List<int>();
+        //public List<int> idToMovieIdList = new List<int>();
+        public Dictionary<int,int> idToUserIdList = new Dictionary<int,int>();
+        public Dictionary<int, int> idToMovieIdList = new Dictionary<int,int>();
         public int k = 13;
         public double lrate = 0.001;
         public Dictionary<int, Movie> ratingDic;
@@ -22,12 +23,12 @@ namespace NetflixAnalyze
             // Loop over pairs with foreach
             foreach (int movieID in inputDic.Keys)
             {
-                idToMovieIdList.Add(movieID);
+                idToMovieIdList.Add(movieID,idToMovieIdList.Count);
                 foreach (int userID in inputDic[movieID].Ratings.Keys)
                 {
-                    if (!idToUserIdList.Contains(userID))
+                    if (!idToUserIdList.ContainsKey(userID))
                     {
-                        idToUserIdList.Add(userID);
+                        idToUserIdList.Add(userID, idToUserIdList.Count);
                     }
                 }
             }
@@ -60,9 +61,11 @@ namespace NetflixAnalyze
                 {
                     foreach (int userID in ratingDic[movieID].Ratings.Keys)
                     {
-                        trainMovieUserLink(movieID, userID, i);
+                        for (int n = 0; n < k; n++ )
+                            trainMovieUserLink(movieID, userID, n);
                     }
                 }
+                i++;
             }
             i = 0;
             Console.WriteLine("Press Y to continue, N to stop training");
@@ -98,8 +101,8 @@ namespace NetflixAnalyze
         private double predictRating(int movieID, int userID)
         {
             double sum = 0;
-            int listMovieID = idToMovieIdList.IndexOf(movieID);
-            int listUserID = idToUserIdList.IndexOf(userID);
+            int listMovieID = idToMovieIdList[movieID];
+            int listUserID = idToUserIdList[userID];
             for(int i = 0; i < k; i++)
             {
                 sum += movieValues[listMovieID,i] * userValues[listUserID,i];
@@ -110,9 +113,11 @@ namespace NetflixAnalyze
         private void trainMovieUserLink(int movieID, int userID, int feature)
         {
             double err = lrate * (getRating(movieID, userID) - predictRating(movieID, userID));
-            double uv = userValues[userID, feature];
-            userValues[userID, feature] += err * movieValues[movieID, feature];
-            movieValues[movieID, feature] += err * uv;
+            int uid = idToUserIdList[userID];
+            int mid = idToMovieIdList[movieID];
+            double uv = userValues[uid, feature];
+            userValues[uid, feature] += err * movieValues[mid, feature];
+            movieValues[mid, feature] += err * uv;
 
         }
 
@@ -121,12 +126,5 @@ namespace NetflixAnalyze
             return ratingDic[movieID].Ratings[userID];
         }
 
-        public static void matrix(double[,] inputMatrix)
-        {
-            ILInArray<double> ilArray = (ILInArray<double>)inputMatrix;
-            int length = (int)Math.Sqrt(inputMatrix.Length);
-            ILOutArray<double> outarray = (ILOutArray<double>)((ILArray<double>)new double[length, length]);
-            ILRetArray<double> eigresult = ILMath.svd(ilArray, outarray);
-        }
     }
 }
