@@ -66,12 +66,13 @@
   <ItemGroup>
     <Compile Include="SaveLoad.cs" />
     <Compile Include="Factorize.cs" />
-    <Compile Include="Match.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="PreProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="readfile.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="RMSE.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

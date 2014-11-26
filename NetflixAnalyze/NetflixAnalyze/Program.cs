@@ -10,15 +10,17 @@ namespace NetflixAnalyze
     {
         static void Main(string[] args)
         {
-            Dictionary<int, Movie> trainingData = readfile.readMovieFiles();
-            Dictionary<int, Movie> probeData = readfile.readProbeFile(trainingData.Count);
-            Match.matchData(trainingData, probeData);
+            readfile reader = new readfile();
+            Dictionary<int, Movie> trainingData = reader.readMovieFiles();
+            Dictionary<int, Movie> probeData = reader.readProbeFile(trainingData.Count);
+            reader.matchData(trainingData, probeData);
             //PreProcess.preProcessData(trainingData);
            // Dictionary<int, Movie> movies = readfile.readProbeFile();
             Dictionary<int, Movie> movies = PreProcess.prePostProcessData(trainingData, -1);
             Factorize fac = new Factorize(movies);
             fac.train();
-
+            RMSE scoreCalculater = new RMSE();
+            scoreCalculater.calculateScores(probeData);
             Console.ReadKey();
         }
     }
