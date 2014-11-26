@@ -9,8 +9,7 @@ namespace NetflixAnalyze
 {
     class readfile
     {
-
-        public static Dictionary<int, Movie> readMovieFiles()
+        public Dictionary<int, Movie> readMovieFiles()
         {
             Console.WriteLine("How many movies files do you wanna load?:");
             int max = int.Parse(Console.ReadLine());
@@ -53,7 +52,7 @@ namespace NetflixAnalyze
             return movieData;
         }
 
-        public static Dictionary<int, Movie> readProbeFile(int maxID)
+        public Dictionary<int, Movie> readProbeFile(int maxID)
         {
             Dictionary<int, Movie> probeData = new Dictionary<int, Movie>();
             int tempID = -1;
@@ -88,6 +87,26 @@ namespace NetflixAnalyze
 
             Console.WriteLine("Probe File Loaded!");
             return probeData;
+        }
+
+        public void matchData(Dictionary<int, Movie> trainingData, Dictionary<int, Movie> probeData)
+        {
+            List<int> movieIDs = new List<int>();
+            List<int> customerIDs = new List<int>();
+            foreach (int movieID in probeData.Keys)
+            {
+                for (int i = 0; i < probeData[movieID].Ratings.Count; i++)
+                {
+                    int customerID = probeData[movieID].Ratings.Keys.ElementAt(i);
+                    probeData[movieID].Ratings[customerID] = trainingData[movieID].Ratings[customerID];
+                    movieIDs.Add(movieID);
+                    customerIDs.Add(customerID);
+                }
+            }
+            for (int i = 0; i < movieIDs.Count; i++)
+            {
+                trainingData[movieIDs[i]].Ratings.Remove(customerIDs[i]);
+            }
         }
     }
 }
