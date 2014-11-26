@@ -14,6 +14,7 @@ namespace NetflixAnalyze
         public List<int> idToUserIdList = new List<int>();
         public List<int> idToMovieIdList = new List<int>();
         public int k = 13;
+        public double lrate = 0.001;
         public Dictionary<int, Movie> ratingDic;
 
         public Factorize(Dictionary<int, Movie> inputDic)
@@ -59,7 +60,7 @@ namespace NetflixAnalyze
                 {
                     foreach (int userID in ratingDic[movieID].Ratings.Keys)
                     {
-                        trainMovieUserLink(movieID, userID);
+                        trainMovieUserLink(movieID, userID, i);
                     }
                 }
             }
@@ -94,8 +95,12 @@ namespace NetflixAnalyze
             }
         }
 
-        private void trainMovieUserLink(int movieID, int userID)
+        private void trainMovieUserLink(int movieID, int userID, int feature)
         {
+            double err = lrate * (getRating(movieID, userID) - predictRating(movieID, userID));
+            double uv = userValues[userID, feature];
+            userValues[userID, feature] += err * movieValues[movieID, feature];
+            movieValues[movieID, feature] += err * uv;
 
         }
 
