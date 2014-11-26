@@ -94,6 +94,18 @@ namespace NetflixAnalyze
             }
         }
 
+        private double predictRating(int movieID, int userID)
+        {
+            double sum = 0;
+            int listMovieID = idToMovieIdList.IndexOf(movieID);
+            int listUserID = idToUserIdList.IndexOf(userID);
+            for(int i = 0; i < k; i++)
+            {
+                sum += movieValues[listMovieID,i] * userValues[listUserID,i];
+            }
+            return sum;
+        }
+
         private void trainMovieUserLink(int movieID, int userID)
         {
 
