@@ -14,7 +14,7 @@ namespace NetflixAnalyze
         public List<int> idToUserIdList = new List<int>();
         public List<int> idToMovieIdList = new List<int>();
         public int k = 13;
-        Dictionary<int, Movie> ratingDic;
+        public Dictionary<int, Movie> ratingDic;
 
         public Factorize(Dictionary<int, Movie> inputDic)
         {
@@ -30,6 +30,11 @@ namespace NetflixAnalyze
             movieValues = new double[idToMovieIdList.Count, k];
             userValues = new double[idToUserIdList.Count, k];
             ratingDic = inputDic;
+        }
+
+        public void train()
+        {
+
         }
 
         public double getRating(int movieID, int userID)
