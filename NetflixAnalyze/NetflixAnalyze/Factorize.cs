@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace NetflixAnalyze
 {
@@ -91,12 +92,18 @@ namespace NetflixAnalyze
                 {
                     train();
                 }
+                else
+                {
+                    SaveLoad save = new SaveLoad();
+                    save.Serialize(idToUserIdList, File.Open("Noget", FileMode.Create));
+                }
             }
             else
             {
                 train();
             }
         }
+
 
         private double predictRating(int movieID, int userID)
         {
