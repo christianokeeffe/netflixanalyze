@@ -18,6 +18,7 @@ namespace NetflixAnalyze
         public int k = 13;
         public double lrate = 0.001;
         public Dictionary<int, Movie> ratingDic;
+        SaveLoad save = new SaveLoad();
 
         public Factorize(Dictionary<int, Movie> inputDic)
         {
@@ -94,8 +95,7 @@ namespace NetflixAnalyze
                 }
                 else
                 {
-                    SaveLoad save = new SaveLoad();
-                    save.Serialize(idToUserIdList, File.Open("Noget", FileMode.Create));
+                    saveToFile();
                 }
             }
             else
@@ -104,6 +104,13 @@ namespace NetflixAnalyze
             }
         }
 
+        private void saveToFile()
+        {
+            save.SerializeDictionary(idToUserIdList, File.Open("IdDictionary", FileMode.Create));
+            save.SerializeDictionary(idToMovieIdList, File.Open("MovieDictionary", FileMode.Create));
+            save.SerializeArray(movieValues, File.Open("MovieValues", FileMode.Create));
+            save.SerializeArray(userValues, File.Open("UserValues", FileMode.Create));
+        }
 
         private double predictRating(int movieID, int userID)
         {
