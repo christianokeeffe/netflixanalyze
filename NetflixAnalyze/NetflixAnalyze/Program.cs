@@ -17,10 +17,14 @@ namespace NetflixAnalyze
             //PreProcess.preProcessData(trainingData);
            // Dictionary<int, Movie> movies = readfile.readProbeFile();
             Dictionary<int, Movie> movies = PreProcess.prePostProcessData(trainingData, -1);
+            //Dictionary<int, Movie> movies = trainingData;
             Factorize fac = new Factorize(movies);
             fac.train();
             RMSE scoreCalculater = new RMSE();
-            scoreCalculater.calculateScores(probeData);
+            double test = scoreCalculater.calculateScores(probeData, trainingData, fac);
+            fac.train();
+            scoreCalculater = new RMSE();
+            test = scoreCalculater.calculateScores(probeData, trainingData, fac);
             Console.ReadKey();
         }
     }

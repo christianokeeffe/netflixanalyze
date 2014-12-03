@@ -8,16 +8,27 @@ namespace NetflixAnalyze
 {
     class RMSE
     {
-        public double calculateScores(Dictionary<int, Movie> probeData)
+        public double calculateScores(Dictionary<int, Movie> probeData, Dictionary<int, Movie> traningdata, Factorize fac)
         {
+            double returnVal = 0;
+            int reviewNumb = 0;
+            PreProcess pp = new PreProcess(traningdata);
             foreach(int movieID in probeData.Keys) 
             {
                 foreach(int customerID in probeData[movieID].Ratings.Keys)
                 {
-                    //Predict score
+                    reviewNumb++;
+                    try
+                    {
+                        returnVal += Math.Pow(pp.postProcess(probeData[movieID], fac.predictRating(movieID, customerID), customerID) - probeData[movieID].Ratings[customerID], 2);
+                    }
+                    catch(KeyNotFoundException e)
+                    {
+                        reviewNumb--;
+                    }
                 }
             }
-            return 0;
+            return Math.Sqrt(returnVal/reviewNumb);
         }
     }
 }

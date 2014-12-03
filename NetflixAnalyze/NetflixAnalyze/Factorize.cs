@@ -56,7 +56,7 @@ namespace NetflixAnalyze
         {
             Console.WriteLine("Started training");
             int i = 0;
-            while(i < 10)
+            while(i < 50)
             {
                 foreach (int movieID in ratingDic.Keys)
                 {
@@ -76,7 +76,7 @@ namespace NetflixAnalyze
 
             bool gotKey = false;
 
-            while ((DateTime.Now - start).TotalSeconds < 10)
+            while ((DateTime.Now - start).TotalSeconds < 2)
             {
                 if (Console.KeyAvailable)
                 {
@@ -105,7 +105,7 @@ namespace NetflixAnalyze
         }
 
 
-        private double predictRating(int movieID, int userID)
+        public double predictRating(int movieID, int userID)
         {
             double sum = 0;
             int listMovieID = idToMovieIdList[movieID];
