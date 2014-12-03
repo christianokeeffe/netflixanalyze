@@ -71,7 +71,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="readfile.cs" />
-    <Compile Include="Result.cs" />
     <Compile Include="RMSE.cs" />
   </ItemGroup>
   <ItemGroup>
